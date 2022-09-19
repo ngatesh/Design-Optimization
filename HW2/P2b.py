@@ -6,7 +6,7 @@ import numpy as np
 
 def objective(x):
     r = np.array([[-2+2*x[0][0]+3*x[1][0], -x[0][0], 1-x[1][0]]]).T
-    return r.T.dot(r)
+    return r.T.dot(r)[0][0]
 
 
 def grad(x):
@@ -35,5 +35,5 @@ x1 = 1-2*X[0][0]-3*X[1][0]
 x2 = X[0][0]
 x3 = X[1][0]
 
-print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {objective(X)}")
+print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {np.sqrt(objective(X))}")
 
