@@ -2,6 +2,7 @@
 # Date:   18 September 2022
 
 import numpy as np
+import numpy.linalg
 
 
 def objective(x):
@@ -23,13 +24,20 @@ def alpha(x):
     return (g.T.dot(g)) / (g.T.dot(H).dot(g))
 
 
-X = np.array([[0, 0]]).T
-a = alpha(X)
-g = grad(X)
+def delta(x):
+    return -np.linalg.inv(hess(X)).dot(grad(X))
 
-while g.T.dot(g) > 0.00001:
-    X = X - a*g
-    g = grad(X)
+
+# Method 1: Gradient Descent
+X = np.array([[0, 0]]).T
+
+f = objective(X)
+f_last = f + 1
+
+while abs(f-f_last) > 0.00001:
+    X = X - alpha(X)*grad(X)
+    f_last = f
+    f = objective(X)
 
 x1 = 1-2*X[0][0]-3*X[1][0]
 x2 = X[0][0]
@@ -37,3 +45,19 @@ x3 = X[1][0]
 
 print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {np.sqrt(objective(X))}")
 
+# Method 2: Newton's Method
+X = np.array([[0, 0]]).T
+
+f = objective(X)
+f_last = f + 1
+
+while abs(f-f_last) > 0.00001:
+    X = X + delta(X)
+    f_last = f
+    f = objective(X)
+
+x1 = 1-2*X[0][0]-3*X[1][0]
+x2 = X[0][0]
+x3 = X[1][0]
+
+print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {np.sqrt(objective(X))}")
