@@ -3,6 +3,7 @@
 
 import numpy as np
 import numpy.linalg
+import matplotlib.pyplot as plt
 
 
 def objective(x):
@@ -25,39 +26,60 @@ def alpha(x):
 
 
 def delta(x):
-    return -np.linalg.inv(hess(X)).dot(grad(X))
+    return -np.linalg.inv(hess(x)).dot(grad(x))
 
 
 # Method 1: Gradient Descent
 X = np.array([[0, 0]]).T
+print(f"GD Method for starting guess ({X[0]}, {X[1]}):")
 
 f = objective(X)
 f_last = f + 1
 
-while abs(f-f_last) > 0.00001:
+errorA = [f]
+
+while abs(f-f_last) > 10**-8:
     X = X - alpha(X)*grad(X)
     f_last = f
     f = objective(X)
+    errorA.append(abs(f-0))
+
 
 x1 = 1-2*X[0][0]-3*X[1][0]
 x2 = X[0][0]
 x3 = X[1][0]
 
-print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {np.sqrt(objective(X))}")
+print(f"\tClosest Point:{x1}, {x2}, {x3}\t at Distance: {np.sqrt(objective(X))}")
 
 # Method 2: Newton's Method
 X = np.array([[0, 0]]).T
+print(f"Newton's Method for starting guess ({X[0]}, {X[1]}):")
 
 f = objective(X)
 f_last = f + 1
 
-while abs(f-f_last) > 0.00001:
+errorB = [f]
+
+while abs(f-f_last) > 10**-8:
     X = X + delta(X)
     f_last = f
     f = objective(X)
+    errorB.append((abs(f-0)))
 
 x1 = 1-2*X[0][0]-3*X[1][0]
 x2 = X[0][0]
 x3 = X[1][0]
 
-print(f"Closest Point:{x1}, {x2}, {x3}\t at distance: {np.sqrt(objective(X))}")
+print(f"\tClosest Point:{x1}, {x2}, {x3}\t at Distance: {np.sqrt(objective(X))}")
+
+errorA = np.log10(errorA)
+plt.plot(range(len(errorA)), errorA)
+
+errorB = np.log10(errorB)
+plt.plot(range(len(errorB)), errorB)
+
+plt.title("Log Convergence Chart")
+plt.xlabel("Iteration #")
+plt.ylabel("log|f - 0|")
+
+plt.show()
