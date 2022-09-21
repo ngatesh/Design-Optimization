@@ -5,6 +5,12 @@ import numpy as np
 import numpy.linalg
 import matplotlib.pyplot as plt
 
+"""
+SUMMARY: See Convergence1, Convergence2, Output1, and Output2.png in this folder.
+        Impression: Both methods, and both initial guesses, produced the same final answer.
+                    However, Newton's method converged faster.
+"""
+
 
 # Define objective function to minimize.
 def objective(x):
