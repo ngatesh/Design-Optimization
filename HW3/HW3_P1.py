@@ -27,8 +27,9 @@ thisA = np.array([[0, 0]])
 lastA = np.array([[1, 1]])
 deltaALim = np.ones([1, 2]) * 10**-8
 
+count = 0
 
-for i in range(100):
+while np.greater(abs(thisA - lastA), deltaALim).any():
     pred = X1 * torch.exp(A[0] * (A[1]*X2 / (A[0]*X1 + A[1]*X2)) ** 2) * p_w \
          + X2 * torch.exp(A[1] * (A[0]*X1 / (A[0]*X1 + A[1]*X2)) ** 2) * p_d
 
@@ -42,8 +43,9 @@ for i in range(100):
         lastA = thisA.copy()
         thisA = A.data.numpy().copy()
 
-print(f'A12 : {A[0]}\tA21 : {A[1]}\tLoss : {loss.data.numpy()}')
+    count += 1
 
+print(f'A12 : {A[0]}\tA21 : {A[1]}\tLoss : {loss.data.numpy()}\t Iterations: {count}')
 
 pred = pred.detach().numpy()[0]
 P = P.detach().numpy()[0]
