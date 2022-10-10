@@ -3,6 +3,9 @@ import torch
 from torch.autograd import Variable
 import matplotlib.pyplot as plt
 
+# Author: Nathaniel H. Gatesh
+# Date: 10 October 2022
+
 # Define constants
 T = 20
 a_w = np.array([8.07131, 1730.63, 233.426])
