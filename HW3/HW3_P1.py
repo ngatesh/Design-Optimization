@@ -55,7 +55,7 @@ while np.greater(abs(thisA - lastA), deltaALim).any():
     count += 1
 
 # Print results
-print(f'A12 : {A[0]}\tA21 : {A[1]}\tLoss : {loss.data.numpy()}\t Iterations: {count}')
+print(f'A12 : {A[0]}\nA21 : {A[1]}\nLoss : {loss.data.numpy()}\nIterations: {count}')
 
 # Plot results
 pred = pred.detach().numpy()[0]
