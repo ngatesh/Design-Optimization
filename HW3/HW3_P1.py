@@ -44,3 +44,15 @@ for i in range(100):
 
 print(f'A12 : {A[0]}\tA21 : {A[1]}\tLoss : {loss.data.numpy()}')
 
+
+pred = pred.detach().numpy()[0]
+P = P.detach().numpy()[0]
+X1 = X1.detach().numpy()[0]
+
+plt.plot(X1, pred)
+plt.plot(X1, P)
+plt.legend(['Predicted Pressure', 'Actual Pressure'])
+plt.xlabel('X1')
+plt.ylabel('Pressure')
+plt.title('Predicted Pressure vs. Actual Pressure')
+plt.show()
