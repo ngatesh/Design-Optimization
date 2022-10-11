@@ -2,6 +2,8 @@ from matplotlib import pyplot as plt
 from skopt import gp_minimize
 from skopt.plots import plot_convergence
 
+# Author: Nathaniel H. Gatesh
+# Date: 11 October 2022
 
 def f(x):
     x1 = x[0]
