@@ -34,7 +34,7 @@ class Optimize:
         xDot = data[:, 3]
         yDot = data[:, 4]
         thetaDot = data[:, 5]
-        time = [i/Dynamics.FRAME_TIME for i in range(self.simulation.T)]
+        time = [i*Dynamics.FRAME_TIME for i in range(self.simulation.T)]
 
         plt.plot(time, x)
         plt.plot(time, y)

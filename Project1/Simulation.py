@@ -34,6 +34,8 @@ class Simulation(nn.Module):
 
     def error(self):
         total = 0
-        for i in range(self.T):
+        for i in range(self.T - 1):
             total = total + t.sum(self.state_trajectory[i] ** 2)
+        total = total + 1000.0 * t.sum(self.state_trajectory[-1] ** 2)
+
         return total
