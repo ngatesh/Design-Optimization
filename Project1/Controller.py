@@ -1,4 +1,9 @@
+import torch as t
 from torch import nn
+
+MAX_THRUST = 660_000  # maximum thrust force [N]
+MAX_PHI = 0.52        # maximum thrust angle [rad]. Approx 30deg.
+
 
 class Controller(nn.Module):
 
@@ -19,4 +24,7 @@ class Controller(nn.Module):
 
     def forward(self, state):
         action = self.network(state)
-        return action
+        thrust = t.sigmoid(action[0])
+        phi = t.tanh(action[1])
+
+        return t.cat((thrust, phi), dim=0)
