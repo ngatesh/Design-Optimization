@@ -1,8 +1,11 @@
+import numpy as np
 import torch as t
 
-a = t.tensor([1, 2, 3])
-b = t.tensor([2])
+states = []
+add = t.tensor([1, 2, 3])
 
-c = a * b
+states.append(add)
+states.append(add)
 
-print(c)
+
+print(states)

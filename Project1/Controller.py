@@ -17,10 +17,6 @@ class Controller(nn.Module):
         self.network = nn.Sequential(
             nn.Linear(dim_input, dim_hidden),
             nn.Tanh(),
-            nn.Linear(dim_hidden, dim_hidden),
-            nn.Tanh(),
-            nn.Linear(dim_hidden, dim_hidden),
-            nn.Tanh(),
             nn.Linear(dim_hidden, dim_output)
         )
 
