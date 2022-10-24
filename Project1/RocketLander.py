@@ -11,4 +11,4 @@ d = Dynamics()  # define dynamics
 c = Controller(dim_input, dim_hidden, dim_output)  # define controller
 s = Simulation(c, d, T)  # define simulation
 o = Optimize(s)  # define optimizer
-o.train(30)  # solve the optimization problem
+o.train(60)  # solve the optimization problem

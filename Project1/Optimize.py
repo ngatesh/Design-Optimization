@@ -7,7 +7,7 @@ class Optimize:
     def __init__(self, simulation):
         self.simulation = simulation
         self.parameters = simulation.controller.parameters()
-        self.optimizer = optim.Adam(self.parameters, lr=0.1)
+        self.optimizer = optim.LBFGS(self.parameters, lr=0.01)
 
     def step(self):
         def closure():

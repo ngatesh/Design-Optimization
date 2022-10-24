@@ -1,7 +1,7 @@
 import torch as t
 from torch import nn
 
-MAX_THRUST = 660_000  # maximum thrust force [N]
+MAX_THRUST = 500_000.0  # maximum thrust force [N]
 MAX_PHI = 0.52        # maximum thrust angle [rad]. Approx 30deg.
 
 
@@ -16,15 +16,15 @@ class Controller(nn.Module):
         super(Controller, self).__init__()
         self.network = nn.Sequential(
             nn.Linear(dim_input, dim_hidden),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(dim_hidden, dim_hidden),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(dim_hidden, dim_output)
         )
 
     def forward(self, state):
         action = self.network(state)
-        thrust = t.sigmoid(action[0])
-        phi = t.tanh(action[1])
+        thrust = t.sigmoid(action[0]) * MAX_THRUST
+        phi = t.tanh(action[1]) * MAX_PHI
 
-        return t.cat((thrust, phi), dim=0)
+        return t.stack((thrust, phi), dim=0)

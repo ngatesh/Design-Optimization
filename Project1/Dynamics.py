@@ -37,7 +37,7 @@ class Dynamics(nn.Module):
         theta = t.matmul(thetaMask.T, state)
 
         d_xDot = -F * t.sin(theta - phi) / MASS * FRAME_TIME
-        d_yDot = (F * t.cos(theta - phi) / MASS * GRAVITY_ACCEL) * FRAME_TIME
+        d_yDot = (F * t.cos(theta - phi) / MASS - GRAVITY_ACCEL) * FRAME_TIME
         d_thetaDot = F * t.sin(phi) * ARM / MOMENT * FRAME_TIME
 
         state = state + (xDotMask * d_xDot) + (yDotMask * d_yDot) + (thetaDotMask * d_thetaDot)
