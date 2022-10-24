@@ -19,6 +19,8 @@ class Controller(nn.Module):
             nn.Tanh(),
             nn.Linear(dim_hidden, dim_hidden),
             nn.Tanh(),
+            nn.Linear(dim_hidden, dim_hidden),
+            nn.Tanh(),
             nn.Linear(dim_hidden, dim_output)
         )
 

@@ -21,13 +21,19 @@ class Simulation(nn.Module):
             state = self.dynamics.forward(state, action)
             self.action_trajectory.append(action)
             self.state_trajectory.append(state)
-        return self.error(state)
+        return self.error()
 
     @staticmethod
     def initialize_state():
-        state = [1.0, 1.0, 0.17, 0.0, 0.0, 0.0]  # TODO: need batch of initial states
+        state = [1.0, 1.0, 0.17, 0.89, 0.4, -0.001]  # TODO: need batch of initial states
         return t.tensor(state, requires_grad=False).float()
 
     @staticmethod
-    def error(state):
+    def error1(state):
         return state[0]**2 + state[1]**2 + state[2]**2 + state[3]**2 + state[4]**2 + state[5]**2
+
+    def error(self):
+        total = 0
+        for i in range(self.T):
+            total = total + t.sum(self.state_trajectory[i] ** 2)
+        return total

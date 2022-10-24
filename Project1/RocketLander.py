@@ -5,7 +5,7 @@ from Simulation import Simulation
 
 T = 100  # number of time steps
 dim_input = 6  # state space dimensions
-dim_hidden = 18  # latent dimensions
+dim_hidden = 12  # latent dimensions
 dim_output = 2  # action space dimensions
 d = Dynamics()  # define dynamics
 c = Controller(dim_input, dim_hidden, dim_output)  # define controller

@@ -1,6 +1,7 @@
 from torch import optim
 import numpy as np
 import matplotlib.pyplot as plt
+import Dynamics
 
 
 class Optimize:
@@ -33,7 +34,7 @@ class Optimize:
         xDot = data[:, 3]
         yDot = data[:, 4]
         thetaDot = data[:, 5]
-        time = [i for i in range(self.simulation.T)]
+        time = [i/Dynamics.FRAME_TIME for i in range(self.simulation.T)]
 
         plt.plot(time, x)
         plt.plot(time, y)
@@ -41,6 +42,7 @@ class Optimize:
         plt.plot(time, xDot)
         plt.plot(time, yDot)
         plt.plot(time, thetaDot)
-        plt.legend(['X', 'Y', 'Theta', 'Vx', 'Vy', 'w'])
+        plt.legend(['X [m]', 'Y [m]', 'Theta [rad]', 'Vx [m/s]', 'Vy[m/s]', 'w[rad/s]'])
+        plt.title("State Space Variables Over Time")
+        plt.xlabel("Time [sec]")
         plt.show()
-
