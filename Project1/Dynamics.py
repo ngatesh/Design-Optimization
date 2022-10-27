@@ -10,9 +10,9 @@ MOMENT = 3_300_000    # angular moment of inertia [kgm^2].
 ARM = 20              # distance from thruster to center of mass [m].
 
 # Masks to represent the locations of states within the state vector.
-xDotMask = t.tensor([0, 0, 0, 1, 0, 0], requires_grad=False).float().T
-yDotMask = t.tensor([0, 0, 0, 0, 1, 0], requires_grad=False).float().T
-thetaDotMask = t.tensor([0, 0, 0, 0, 0, 1], requires_grad=False).float().T
+xDotMask = t.tensor([0, 0, 0, 1, 0, 0], requires_grad=False).float()
+yDotMask = t.tensor([0, 0, 0, 0, 1, 0], requires_grad=False).float()
+thetaDotMask = t.tensor([0, 0, 0, 0, 0, 1], requires_grad=False).float()
 
 
 class Dynamics(nn.Module):

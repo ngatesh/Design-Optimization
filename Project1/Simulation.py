@@ -59,7 +59,7 @@ class Simulation(nn.Module):
         # Normalize loss to the batch size.
         return loss / self.batchSize
 
-    def initialize_state(self):
+    def initialize_states(self):
         """
         :return: an array of initial state tensors, randomly generated.
         """
@@ -71,7 +71,7 @@ class Simulation(nn.Module):
             thetaState = uniform(-0.75, 0.75)
             xDotState = uniform(-20, 20)
             yDotState = uniform(-30, 0)
-            thetaDotState = uniform(-0.02, 0.02)
+            thetaDotState = uniform(-0.1, 0.1)
 
             # Combine into a tensor object and add to state array.
             state = t.tensor([xState, yState, thetaState, xDotState, yDotState, thetaDotState], requires_grad=False)
