@@ -1,27 +1,21 @@
 from torch import nn
 import torch as t
 
-FRAME_TIME = 0.1      # time interval
-GRAVITY_ACCEL = 9.81  # gravity constant [m/s^2]
+FRAME_TIME = 0.2      # time interval [s].
+GRAVITY_ACCEL = 9.81  # gravity constant [m/s^2].
 
-MASS = 25_000         # mass of rocket [kg]
-MOMENT = 3_300_000    # angular moment of inertia [kgm^2]
-ARM = 20              # distance from thruster to center of mass [m]
+# Rocket constants sourced roughly from the Falcon 9.
+MASS = 25_000         # mass of rocket [kg].
+MOMENT = 3_300_000    # angular moment of inertia [kgm^2].
+ARM = 20              # distance from thruster to center of mass [m].
 
-FMask = t.tensor([1, 0], requires_grad=False).float().T
-phiMask = t.tensor([0, 1], requires_grad=False).float().T
-
-xMask = t.tensor([1, 0, 0, 0, 0, 0], requires_grad=False).float().T
-yMask = t.tensor([0, 1, 0, 0, 0, 0], requires_grad=False).float().T
-thetaMask = t.tensor([0, 0, 1, 0, 0, 0], requires_grad=False).float().T
-
+# Masks to represent the locations of states within the state vector.
 xDotMask = t.tensor([0, 0, 0, 1, 0, 0], requires_grad=False).float().T
 yDotMask = t.tensor([0, 0, 0, 0, 1, 0], requires_grad=False).float().T
 thetaDotMask = t.tensor([0, 0, 0, 0, 0, 1], requires_grad=False).float().T
 
 
 class Dynamics(nn.Module):
-
     def __init__(self):
         super(Dynamics, self).__init__()
 
@@ -32,16 +26,19 @@ class Dynamics(nn.Module):
         action: [thrust, phi]
         """
 
-        F = t.matmul(FMask.T, action)
-        phi = t.matmul(phiMask.T, action)
-        theta = t.matmul(thetaMask.T, state)
+        F = action[0]       # Engine thrust [N].
+        phi = action[1]     # Thrust angle [rad].
+        theta = state[2]    # Rocket angle [rad].
 
+        # Calculate accelerations.
         d_xDot = -F * t.sin(theta - phi) / MASS * FRAME_TIME
         d_yDot = (F * t.cos(theta - phi) / MASS - GRAVITY_ACCEL) * FRAME_TIME
         d_thetaDot = F * t.sin(phi) * ARM / MOMENT * FRAME_TIME
 
+        # Apply accelerations to update the speed states.
         state = state + (xDotMask * d_xDot) + (yDotMask * d_yDot) + (thetaDotMask * d_thetaDot)
 
+        # Apply speeds to update the position states.
         stepMatrix = t.tensor([[1, 0, 0, FRAME_TIME, 0, 0],
                                [0, 1, 0, 0, FRAME_TIME, 0],
                                [0, 0, 1, 0, 0, FRAME_TIME],

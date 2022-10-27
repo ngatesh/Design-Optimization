@@ -40,17 +40,18 @@ class Simulation(nn.Module):
             yState = uniform(50, 110)
             thetaState = uniform(-0.75, 0.75)
             xDotState = uniform(-20, 20)
-            yDotState = uniform(-20, 20)
+            yDotState = uniform(-30, 0)
             thetaDotState = uniform(-0.02, 0.02)
 
             state = t.tensor([xState, yState, thetaState, xDotState, yDotState, thetaDotState], requires_grad=False)
+            #state = t.tensor([1, 1, 0, 0, 0, 0], requires_grad=False).float()
             states.append(state)
 
         return states
 
     @staticmethod
     def error(state):
-        return state[0]**2 + state[1]**2 + state[2]**2 + state[3]**2 + state[4]**2 + state[5]**2
+        return state[0]**2 + state[1]**2 + 100*state[2]**2 + state[3]**2 + state[4]**2 + 100*state[5]**2
 
     def error1(self):
         total = 0

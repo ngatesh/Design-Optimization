@@ -8,7 +8,7 @@ class Optimize:
     def __init__(self, simulation):
         self.simulation = simulation
         self.parameters = simulation.controller.parameters()
-        self.optimizer = optim.LBFGS(self.parameters, lr=0.1)
+        self.optimizer = optim.LBFGS(self.parameters, lr=0.01)
 
     def step(self):
         def closure():
@@ -21,11 +21,15 @@ class Optimize:
         return closure()
 
     def train(self, epochs):
+        print(f"Initial State: {self.simulation.state}")
+
         for epoch in range(epochs):
             loss = self.step()
             print('[%d] loss: %.3f' % (epoch + 1, loss))
 
         self.visualize()
+
+        print(f"Final State: {self.simulation.state_trajectory[-1]}")
 
     def visualize(self):
         data = np.array([self.simulation.state_trajectory[i].detach().numpy() for i in range(self.simulation.T)])
