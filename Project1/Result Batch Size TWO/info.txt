@@ -1,0 +1,3 @@
+The optimizer had difficulty converging on batch sizes greater than one. This can be seen in the associated results
+graph, where the state space variables do not get very close to one. The neural-net controller apparently does not
+generalize very well with respect to multiple starting conditions.

@@ -10,7 +10,7 @@ dim_output = 2      # Action space dimensions
 
 d = Dynamics()                                      # Define dynamics
 c = Controller(dim_input, dim_hidden, dim_output)   # Define controller
-s = Simulation(c, d, T, 1)                          # Define simulation
+s = Simulation(c, d, T, 2)                          # Define simulation
 o = Optimize(s)                                     # Define optimizer
 
-o.train(80)  # Solve the optimization problem
+o.train(60)  # Solve the optimization problem
