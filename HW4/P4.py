@@ -5,7 +5,17 @@ from numpy.linalg import inv
 epsilon = 10**-3
 
 
+# Define objective function.
+# f = x1^2 + x2^2 + x3^2
+def _f(s, d):
+    s = s[0]
+    d = d[0]
+    return s[0]**2 + s[1]**2 + d[0]**2
+
+
 # Define equality constraint matrix.
+# h1 = 1/4 x1^2 + 1/5 x2^2 + 1/25 x3^2 - 1 = 0
+# h2 = x1 + x2 - x3 = 0
 def _h(s, d):
     s = s[0]
     d = d[0]
@@ -14,14 +24,8 @@ def _h(s, d):
     return np.array([[h1, h2]]).T
 
 
-# Define objective function.
-def _f(s, d):
-    s = s[0]
-    d = d[0]
-    return s[0]**2 + s[1]**2 + d[0]**2
-
-
 # Derivative of objective w.r.t. decision variable.
+# df/dd = 2*x2
 def df_dd(s, d):
     s = s[0]
     d = d[0]
@@ -29,6 +33,7 @@ def df_dd(s, d):
 
 
 # Partial derivative of objective w.r.t state variable.
+# df/ds = [2*x1, 2*x2]
 def df_ds(s, d):
     s = s[0]
     d = d[0]
@@ -36,6 +41,7 @@ def df_ds(s, d):
 
 
 # Partial derivative of equality constraint w.r.t decision variable.
+# dh/dd = [2/25 x3, -1].T
 def dh_dd(s, d):
     s = s[0]
     d = d[0]
@@ -43,6 +49,7 @@ def dh_dd(s, d):
 
 
 # Partial derivative of equality constraint w.r.t state variable.
+# dh/ds = [[0.5*x1, 0.4*x2], [1, 1]]
 def dh_ds(s, d):
     s = s[0]
     d = d[0]
