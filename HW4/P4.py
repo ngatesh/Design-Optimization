@@ -1,10 +1,11 @@
 import numpy as np
 from numpy.linalg import inv
 
-k = 0
+# Termination condition
 epsilon = 10**-3
 
 
+# Define equality constraint matrix.
 def _h(s, d):
     s = s[0]
     d = d[0]
@@ -13,30 +14,35 @@ def _h(s, d):
     return np.array([[h1, h2]]).T
 
 
+# Define objective function.
 def _f(s, d):
     s = s[0]
     d = d[0]
     return s[0]**2 + s[1]**2 + d[0]**2
 
 
+# Derivative of objective w.r.t. decision variable.
 def df_dd(s, d):
     s = s[0]
     d = d[0]
     return 2*d[0]
 
 
+# Partial derivative of objective w.r.t state variable.
 def df_ds(s, d):
     s = s[0]
     d = d[0]
     return np.array([[2*s[0], 2*s[1]]])
 
 
+# Partial derivative of equality constraint w.r.t decision variable.
 def dh_dd(s, d):
     s = s[0]
     d = d[0]
     return np.array([[2/25*d[0], -1]]).T
 
 
+# Partial derivative of equality constraint w.r.t state variable.
 def dh_ds(s, d):
     s = s[0]
     d = d[0]
@@ -44,6 +50,7 @@ def dh_ds(s, d):
                      [1,        1]])
 
 
+# Reduced gradient of objective function.
 def df_Dd(s, d):
     dfdd = df_dd(s, d)
     dfds = df_ds(s, d)
@@ -53,6 +60,7 @@ def df_Dd(s, d):
     return dfdd - np.matmul(np.matmul(dfds, dhds_inv), dhdd)
 
 
+# Uses Newton-Ralphson to solve h(x) = 0 by adjusting state variable (s).
 def solve(s, d):
     h = _h(s, d)
 
@@ -63,6 +71,8 @@ def solve(s, d):
     return s
 
 
+# Perform line search to minimize objective function.
+# Returns the new decision variable (d) and approximate state variable (s).
 def lineSearch(dfDd, s, d):
     a = 1
     b = 0.5
@@ -75,7 +85,6 @@ def lineSearch(dfDd, s, d):
     phi = 0
 
     while f > phi:
-
         dhds_inv = inv(dh_ds(s, d))
         dhdd = dh_dd(s, d)
 
@@ -90,19 +99,20 @@ def lineSearch(dfDd, s, d):
     return [s + ds, d + dd]
 
 
-d = np.array([[1]])
-s = np.array([[1, 1]])
-s = solve(s, d)
+d = np.array([[1]])     # Initial decision guess.
+s = np.array([[1, 1]])  # Initial state guess.
+s = solve(s, d)         # Solve for state to satisfy h(x) = 0.
 
-dfDd = df_Dd(s, d)
+dfDd = df_Dd(s, d)      # Reduced gradient.
 
+# Minimize
 while sum(dfDd**2) > epsilon:
-    [s, d] = lineSearch(dfDd, s, d)
-    s = solve(s, d)
-    dfDd = df_Dd(s, d)
+    [s, d] = lineSearch(dfDd, s, d)     # Perform line search to adjust (s) and (d).
+    s = solve(s, d)                     # Solve for exact (s) to satisfy constraints.
+    dfDd = df_Dd(s, d)                  # Re-evaluate reduced gradient at new state.
 
+    # Print results.
     x1 = s[0][0]
     x2 = s[0][1]
     x3 = d[0][0]
-
     print(f'x1: {x1:.2f}\tx2: {x2:.2f}\tx3: {x3:.2f}\tdfDd: {dfDd[0][0]:.2f}\tf: {_f(s, d):.2f}\t')
