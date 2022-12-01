@@ -17,7 +17,7 @@ class QPSolver:
 
         A = hx
         h_bar = h
-        activeList = np.array([[]]).reshape(0, 0)
+        activeList = np.array([[]], dtype=int).reshape(0, 1)
 
         while True:
             A_size = np.size(A, 0)
@@ -63,7 +63,7 @@ class QPSolver:
                 A = np.concatenate((A, gxRow), 0)
                 h_bar = np.concatenate((h_bar, gVal), 0)
 
-                activeList = np.concatenate((activeList, mostPositiveIndex))
+                activeList = np.concatenate((activeList, np.array([[mostPositiveIndex]])), 0)
                 continue
 
             numActive = np.size(activeList)
@@ -73,13 +73,17 @@ class QPSolver:
                 g_active = np.zeros((numActive, 1))
 
                 for j in range(numActive):
-                    g_active[j] = g_all[activeList[j]]
+                    g_active[j] = g_all[activeList[j, 0]]
+
+                return g_active
 
             def gxActive(x):
                 gx_all = _gx(x)
-                gx_active = np.zeros((numActive, 1))
+                gx_active = np.zeros((numActive, Nx))
 
                 for j in range(numActive):
                     gx_active[j] = gx_all[activeList[j]]
+
+                return gx_active
 
             return [s, lam, mu, gActive, gxActive]

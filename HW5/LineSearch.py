@@ -40,8 +40,6 @@ class LineSearch:
 
         g_size = np.size(g, 0)
 
-        test = np.maximum(g, np.zeros((g_size, 1)))
-
         sumH = np.matmul(self.wh.T, np.abs(h))
         sumG = np.matmul(self.wg.T, np.maximum(g, np.zeros((g_size, 1))))
 
@@ -51,7 +49,7 @@ class LineSearch:
         return self.meritF(0) + t * alpha * self.F_alpha()
 
     def F_alpha(self):
-        return self.f_alpha + np.matmul(self.wh, self.h_alpha) + np.matmul(self.wg, self.g_alpha)
+        return self.f_alpha + np.matmul(self.wh.T, self.h_alpha) + np.matmul(self.wg.T, self.g_alpha)
 
     def f_alpha(self):
         return np.matmul(self.fx(self.X).T, self.s)
