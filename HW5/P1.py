@@ -1,9 +1,5 @@
 import numpy as np
-
-A = np.array([[1, 2], [3, 4]])
-B = np.array([[]]).reshape(2, 0)
-C = np.matmul(A, B)
-print(C)
+from SQP import SQP
 
 
 def f(X):
@@ -41,15 +37,5 @@ def gradG(X):
     return np.array([[-2, 2*x2], [5, 2*(x2-1)]])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+X0 = np.array([[1, 1]]).T
+[X, f] = SQP.solve(X0, f, h, g, gradF, gradH, gradG)

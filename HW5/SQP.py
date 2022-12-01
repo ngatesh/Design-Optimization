@@ -15,7 +15,7 @@ class SQP:
 
             alpha = LineSearch(X, s, f, fx, h, hx, g, gx, lam, mu).search()
 
-            W = SQP.quasiNewtonW(X, alpha * s, g, W)
+            W = SQP.quasiNewtonW(X, alpha * s, W, fx, hx, gx, lam, mu)
 
             X = X + alpha * s
 
@@ -24,14 +24,20 @@ class SQP:
         return [X, f(X)]
 
     @staticmethod
-    def quasiNewtonW(X0, s, g, W0):
+    def quasiNewtonW(X0, s, W0, fx, hx, gx, lam, mu):
         X1 = X0 + s
 
-        g0 = g(X0)
-        g1 = g(X1)
-        y = g1 - g0
+        Lx0 = fx(X0) + np.matmul(lam.T, hx(X0)) + np.matmul(mu.T, gx(X0))
+        Lx1 = fx(X1) + np.matmul(lam.T, hx(X1)) + np.matmul(mu.T, gx(X1))
 
-        # todo: check PD
+        y = Lx1 - Lx0
+
+        sy = np.matmul(s.T, y)
+        sws = np.matmul(s.T, np.matmul(W0, s))
+
+        theta = 1 if sy >= 0.2*sws else 0.8 * sws / (sws - sy)
+
+        y = theta * y + (1-theta) * np.matmul(W0, s)
 
         a = np.matmul(y, y.T)
         b = np.matmul(y.T, s)
