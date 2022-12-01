@@ -41,16 +41,7 @@ def gradG(X):
     return np.array([[-2, 2*x2], [5, 2*(x2-1)]])
 
 
-def quasiNewtonW(s, y, H):
-    # todo: check PD
 
-    a = np.matmul(y, y.T)
-    b = np.matmul(y.T, s)
-    c = np.matmul(np.matmul(H, s), np.matmul(s.T, H))
-    d = np.matmul(np.matmul(s.T, H), s)
-
-    H1 = H + (a / b) - (c / d)
-    return H1
 
 
 
