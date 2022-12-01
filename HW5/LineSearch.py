@@ -28,6 +28,7 @@ class LineSearch:
 
         while F > Q:
             alpha = alpha / 2
+            F = self.meritF(alpha)
             Q = self.Q(alpha, t)
 
         return alpha

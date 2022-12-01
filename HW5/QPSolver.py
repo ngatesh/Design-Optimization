@@ -39,21 +39,21 @@ class QPSolver:
             mostNegativeIndex = -1
 
             for i in range(Nmu):
-                if (mu[i, 0] < 0) and (mostNegativeIndex == -1 or mu[i, 0] < mu[mostNegativeIndex, 0]):
+                if (mu[i, 0] < -10**-8) and (mostNegativeIndex == -1 or mu[i, 0] < mu[mostNegativeIndex, 0]):
                     mostNegativeIndex = i
 
             if mostNegativeIndex != -1:
-                A = np.delete(A, mostNegativeIndex + Nh)
-                h_bar = np.delete(h_bar, mostNegativeIndex + Nh)
+                A = np.delete(A, mostNegativeIndex + Nh, 0)
+                h_bar = np.delete(h_bar, mostNegativeIndex + Nh, 0)
 
-                activeList = np.delete(activeList, mostNegativeIndex)
+                activeList = np.delete(activeList, mostNegativeIndex, 0)
                 continue
 
             mostPositiveIndex = -1
 
             g_next = np.matmul(gx, s) + g
             for i in range(Ng):
-                if (g_next[i, 0] > 0) and (mostPositiveIndex == -1 or g_next[i, 0] > g_next[mostPositiveIndex, 0]):
+                if (g_next[i, 0] > 10**-8) and (mostPositiveIndex == -1 or g_next[i, 0] > g_next[mostPositiveIndex, 0]):
                     mostPositiveIndex = i
 
             if mostPositiveIndex != -1:

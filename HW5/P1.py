@@ -2,17 +2,6 @@ import numpy as np
 from SQP import SQP
 
 
-def functionA(x, y):
-    def functionB(c):
-        return (x+y)**c
-
-    return functionB
-
-
-customFun = functionA(3, 4)
-print(customFun(2))
-
-
 def f(X):
     x1 = X[0][0]
     x2 = X[1][0]
@@ -50,3 +39,7 @@ def gradG(X):
 
 X0 = np.array([[1, 1]]).T
 [X_min, f] = SQP.solve(X0, f, h, g, gradF, gradH, gradG)
+
+print("\nAnswer")
+print(f'X:\t{X_min[:,0]}')
+print(f'f(x):\t{f}')
