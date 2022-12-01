@@ -9,6 +9,8 @@ class LineSearch:
         self.h = _h
         self.g = _g
 
+        self.lam = lam
+        self.mu = mu
         self.wh = np.abs(lam)
         self.wg = np.abs(mu)
 
@@ -18,3 +20,7 @@ class LineSearch:
         sumG = np.matmul(self.wg.T, np.maximum(self.g, np.zeros(np.size(self.g))))
 
         return f + sumH + sumG
+
+    def weightUpdate(self):
+        self.wh = np.max(np.abs(self.wh), 0.5 * (self.wh + self.lam))
+        self.wg = np.max(np.abs(self.wg), 0.5 * (self.wg + self.mu))
