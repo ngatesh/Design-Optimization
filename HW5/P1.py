@@ -1,5 +1,10 @@
 import numpy as np
 
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[]]).reshape(2, 0)
+C = np.concatenate((B, A), axis=1)
+print(C)
+
 
 def f(X):
     x1 = X[0][0]
@@ -8,7 +13,7 @@ def f(X):
 
 
 def h(X):
-    return np.array([[]])
+    return np.array([[]]).reshape(np.size(X, 0), 0)
 
 
 def g(X):
@@ -28,7 +33,7 @@ def gradF(X):
 
 
 def gradH(X):
-    return np.array([[]])
+    return np.array([[]]).reshape(np.size(X, 0), 0)
 
 
 def gradG(X):
