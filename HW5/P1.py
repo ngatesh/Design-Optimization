@@ -2,7 +2,7 @@ import numpy as np
 
 A = np.array([[1, 2], [3, 4]])
 B = np.array([[]]).reshape(2, 0)
-C = np.concatenate((B, A), axis=1)
+C = np.matmul(A, B)
 print(C)
 
 
