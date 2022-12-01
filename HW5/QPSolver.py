@@ -16,29 +16,37 @@ class QPSolver:
         Ng = np.size(g, 0)
 
         A = hx
+        h_bar = h
+        activeList = np.array([[]]).reshape(0, 0)
 
         while True:
-            h1 = np.concatenate((W, A.T), axis=1)
-            h2 = np.concatenate((A, np.zeros(np.size(A, 0))), axis=1)
+            A_size = np.size(A, 0)
+            row1 = np.concatenate((W, A.T), axis=1)
+            row2 = np.concatenate((A, np.zeros((A_size, A_size))), axis=1)
 
-            Big = np.concatenate((h1, h2), axis=0)
-            small = np.concatenate((-fx, -h), axis=0)
+            Big = np.concatenate((row1, row2), axis=0)
+            small = np.concatenate((-fx, -h_bar), axis=0)
 
-            ans = np.matmul(np.invert(Big), small)
+            ans = np.matmul(np.linalg.inv(Big), small)
             Na = np.size(ans, 0)
 
-            s = ans[0:Nx, 0]
-            lam = ans[Nx:Nh, 0]
-            mu = ans[Nh:Na, 0]
+            s = ans[0:Nx, 0].reshape(Nx, 1)
+            lam = ans[Nx:Nh, 0].reshape(Nh-Nx, 1)
+            mu = ans[Nh+Nx:Na, 0].reshape(Na-Nh-Nx, 1)
+
+            Nmu = np.size(mu, 0)
 
             mostNegativeIndex = -1
 
-            for i in range(Nh-Na):
+            for i in range(Nmu):
                 if (mu[i, 0] < 0) and (mostNegativeIndex == -1 or mu[i, 0] < mu[mostNegativeIndex, 0]):
                     mostNegativeIndex = i
 
             if mostNegativeIndex != -1:
                 A = np.delete(A, mostNegativeIndex + Nh)
+                h_bar = np.delete(h_bar, mostNegativeIndex + Nh)
+
+                activeList = np.delete(activeList, mostNegativeIndex)
                 continue
 
             mostPositiveIndex = -1
@@ -49,7 +57,29 @@ class QPSolver:
                     mostPositiveIndex = i
 
             if mostPositiveIndex != -1:
-                A = np.concatenate((A, gx[mostPositiveIndex, 0]), 0)
+                gxRow = np.array([gx[mostPositiveIndex]])
+                gVal = np.array([g[mostPositiveIndex]])
+
+                A = np.concatenate((A, gxRow), 0)
+                h_bar = np.concatenate((h_bar, gVal), 0)
+
+                activeList = np.concatenate((activeList, mostPositiveIndex))
                 continue
 
-            return [s, lam, mu]
+            numActive = np.size(activeList)
+
+            def gActive(x):
+                g_all = _g(x)
+                g_active = np.zeros((numActive, 1))
+
+                for j in range(numActive):
+                    g_active[j] = g_all[activeList[j]]
+
+            def gxActive(x):
+                gx_all = _gx(x)
+                gx_active = np.zeros((numActive, 1))
+
+                for j in range(numActive):
+                    gx_active[j] = gx_all[activeList[j]]
+
+            return [s, lam, mu, gActive, gxActive]

@@ -38,8 +38,12 @@ class LineSearch:
         h = self.h(X_step)
         g = self.g(X_step)
 
+        g_size = np.size(g, 0)
+
+        test = np.maximum(g, np.zeros((g_size, 1)))
+
         sumH = np.matmul(self.wh.T, np.abs(h))
-        sumG = np.matmul(self.wg.T, np.maximum(g, np.zeros(np.size(g))))
+        sumG = np.matmul(self.wg.T, np.maximum(g, np.zeros((g_size, 1))))
 
         return f + sumH + sumG
 
@@ -50,7 +54,7 @@ class LineSearch:
         return self.f_alpha + np.matmul(self.wh, self.h_alpha) + np.matmul(self.wg, self.g_alpha)
 
     def f_alpha(self):
-        return np.matmul(self.fx.T, self.s)
+        return np.matmul(self.fx(self.X).T, self.s)
 
     def h_alpha(self):
         h = self.h(self.X)
@@ -59,9 +63,8 @@ class LineSearch:
         return np.multiply(np.matmul(hx, self.s), np.sign(h))
 
     def g_alpha(self):
-        X_step = self.X
-        g = self.g(X_step)
-        gx = self.gx(X_step)
+        g = self.g(self.X)
+        gx = self.gx(self.X)
 
         g_alpha = np.matmul(gx, self.s)
         g_alpha[g < 0] = 0
@@ -69,5 +72,5 @@ class LineSearch:
         return g_alpha
 
     def weightUpdate(self):
-        self.wh = np.max(np.abs(self.wh), 0.5 * (self.wh + self.lam))
-        self.wg = np.max(np.abs(self.wg), 0.5 * (self.wg + self.mu))
+        self.wh = np.max(np.abs(self.wh), 0.5 * (self.wh + np.abs(self.lam)))
+        self.wg = np.max(np.abs(self.wg), 0.5 * (self.wg + np.abs(self.mu)))

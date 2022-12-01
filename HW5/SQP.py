@@ -11,9 +11,9 @@ class SQP:
         gradL = 10
 
         while np.linalg.norm(gradL) > epsilon:
-            [s, lam, mu] = QPSolver.solve(X, fx, h, hx, g, gx, W)
+            [s, lam, mu, gActive, gxActive] = QPSolver.solve(X, fx, h, hx, g, gx, W)
 
-            alpha = LineSearch(X, s, f, fx, h, hx, g, gx, lam, mu).search()
+            alpha = LineSearch(X, s, f, fx, h, hx, gActive, gxActive, lam, mu).search()
 
             W = SQP.quasiNewtonW(X, alpha * s, W, fx, hx, gx, lam, mu)
 

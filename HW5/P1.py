@@ -2,6 +2,17 @@ import numpy as np
 from SQP import SQP
 
 
+def functionA(x, y):
+    def functionB(c):
+        return (x+y)**c
+
+    return functionB
+
+
+customFun = functionA(3, 4)
+print(customFun(2))
+
+
 def f(X):
     x1 = X[0][0]
     x2 = X[1][0]
@@ -9,7 +20,7 @@ def f(X):
 
 
 def h(X):
-    return np.array([[]]).reshape(np.size(X, 0), 0)
+    return np.array([[]]).reshape(0, 1)
 
 
 def g(X):
@@ -29,7 +40,7 @@ def gradF(X):
 
 
 def gradH(X):
-    return np.array([[]]).reshape(np.size(X, 0), 0)
+    return np.array([[]]).reshape(0, np.size(X, 0))
 
 
 def gradG(X):
@@ -38,4 +49,4 @@ def gradG(X):
 
 
 X0 = np.array([[1, 1]]).T
-[X, f] = SQP.solve(X0, f, h, g, gradF, gradH, gradG)
+[X_min, f] = SQP.solve(X0, f, h, g, gradF, gradH, gradG)
