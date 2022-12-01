@@ -6,23 +6,23 @@ from LineSearch import LineSearch
 class SQP:
     @staticmethod
     def solve(X0, f, h, g, fx, hx, gx, epsilon=10**-5):
+        print("SQP Solver:")
+
         X = X0
         W = np.eye(np.size(X0))
         gradL = 10
 
         while np.linalg.norm(gradL) > epsilon:
-            print("QPSolver...")
             [s, lam, mu, gActive, gxActive] = QPSolver.solve(X, fx, h, hx, g, gx, W)
 
-            print("LineSearch...")
             alpha = LineSearch(X, s, f, fx, h, hx, gActive, gxActive, lam, mu).search()
 
-            print("quasiNewtonW...")
             W = SQP.quasiNewtonW(X, alpha * s, W, fx, hx, gxActive, lam, mu)
 
             X = X + alpha * s
 
             gradL = fx(X) + np.matmul(lam.T, hx(X)).T + np.matmul(mu.T, gxActive(X)).T
+            print(f'\tGradient Norm: {np.linalg.norm(gradL):0.6f}')
 
         return [X, f(X)]
 
