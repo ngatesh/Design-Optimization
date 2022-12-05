@@ -1,0 +1,2 @@
+The program begins in "P1.py" and utilizes the included "SQP.py", "QPSolver.py", and "LineSearch.py".
+See "Console.png" for the solution output, and see "GraphicalConfirmation.png" for visual confirmation of the solution.
