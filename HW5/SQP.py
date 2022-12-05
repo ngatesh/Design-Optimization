@@ -79,7 +79,7 @@ class SQP:
         theta = 1 if sy >= 0.2*sws else 0.8 * sws / (sws - sy)
         y = theta * y + (1-theta) * np.matmul(W0, s)
 
-        # Calculate new hessian estimate
+        # Calculate new hessian estimate (BFGS)
         yy = np.matmul(y, y.T)
         ys = np.matmul(y.T, s)
         wssw = np.matmul(np.matmul(W0, s), np.matmul(s.T, W0))
