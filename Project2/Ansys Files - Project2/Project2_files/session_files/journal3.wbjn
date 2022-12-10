@@ -1,0 +1,334 @@
+# encoding: utf-8
+# 2022 R1
+SetScriptVersion(Version="22.1.217")
+system1 = GetSystem(Name="RSR")
+responseSurface1 = system1.GetContainer(ComponentName="Response Surface")
+responseSurfaceModel1 = responseSurface1.GetModel()
+responseSurfaceModel1.FittingType = "FITTINGTYPE_SRS"
+responseSurfaceModel1.GenerateVerificationPoints = True
+responseSurfaceModel1.NumberVerificationPoints = 3
+responseSurfaceComponent1 = system1.GetComponent(Name="Response Surface")
+responseSurfaceComponent1.Update(AllDependencies=True)
+responseSurfaceModel1.NumberVerificationPoints = 2
+responseSurfaceComponent1.Update(AllDependencies=True)
+designPoint1 = Parameters.GetDesignPoint(Name="2")
+backgroundSession1 = UpdateAllDesignPoints(DesignPoints=[designPoint1])
+designPoint1.Retained = True
+designPoint1.Retained = False
+designPoint1.Retained = True
+backgroundSession2 = UpdateAllDesignPoints(DesignPoints=[designPoint1])
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint1)
+system2 = GetSystem(Name="SYS")
+model1 = system2.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+designPoint2 = Parameters.GetDesignPoint(Name="0")
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint2)
+model1.Edit()
+system3 = GetSystem(Name="Geometry")
+geometry1 = system3.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+designofExperimentComponent1 = system1.GetComponent(Name="Design of Experiment")
+designofExperimentComponent1.Clean()
+designofExperiment1 = system1.GetContainer(ComponentName="Design of Experiment")
+dOEModel1 = designofExperiment1.GetModel()
+inputParameter1 = dOEModel1.GetParameter(Name="P2")
+inputParameter1.LowerBound = 123
+inputParameter1.LowerBound = 125
+inputParameter2 = dOEModel1.GetParameter(Name="P3")
+inputParameter2.LowerBound = 70
+Save(Overwrite=True)
+inputParameter3 = dOEModel1.GetParameter(Name="P1")
+inputParameter3.LowerBound = 15
+inputParameter3.UpperBound = 30
+geometry1.Exit()
+responseSurfaceComponent1.Clean()
+designPoint3 = Parameters.GetDesignPoint(Name="5")
+designPoint4 = Parameters.GetDesignPoint(Name="6")
+designPoint5 = Parameters.GetDesignPoint(Name="7")
+designPoint6 = Parameters.GetDesignPoint(Name="11")
+designPoint7 = Parameters.GetDesignPoint(Name="15")
+backgroundSession3 = UpdateAllDesignPoints(DesignPoints=[designPoint2, designPoint1, designPoint3, designPoint4, designPoint5, designPoint6, designPoint7])
+ClearMessages()
+designPointsTable1 = dOEModel1.PreviewDesignPoints()
+lHSDMethod1 = dOEModel1.Method
+lHSDMethod1.SampType = "SFD_LINEAR"
+designPointsTable2 = dOEModel1.PreviewDesignPoints()
+lHSDMethod1.SampType = "SFD_PUREQUAD"
+designPointsTable3 = dOEModel1.PreviewDesignPoints()
+lHSDMethod1.SampType = "SFD_CROSSQUAD"
+designPointsTable4 = dOEModel1.PreviewDesignPoints()
+dOEModel1.MethodName = "ANSYS_OSFD"
+designPointsTable5 = dOEModel1.PreviewDesignPoints()
+dOEModel1.MethodName = "ANSYS_SPARSEGRID"
+dOEModel1.MethodName = "ANSYS_LHS"
+lHSDMethod2 = dOEModel1.Method
+lHSDMethod2.SampType = "SFD_USER"
+lHSDMethod2.NumSamp = 30
+designPointsTable6 = dOEModel1.PreviewDesignPoints()
+designofExperimentComponent1.Update(AllDependencies=True)
+designofExperimentComponent1.Clean()
+geometry1.Edit()
+inputParameter4 = dOEModel1.GetParameter(Name="P8")
+inputParameter4.LowerBound = 125
+inputParameter4.UpperBound = 140
+inputParameter5 = dOEModel1.GetParameter(Name="P9")
+inputParameter5.LowerBound = 70
+inputParameter5.UpperBound = 90
+geometry1.Exit()
+designofExperimentComponent1.Refresh()
+inputParameter6 = dOEModel1.GetParameter(Name="P12")
+inputParameter6.LowerBound = 125
+inputParameter6.UpperBound = 140
+inputParameter7 = dOEModel1.GetParameter(Name="P15")
+inputParameter7.LowerBound = 70
+inputParameter7.UpperBound = 90
+inputParameter8 = dOEModel1.GetParameter(Name="P14")
+inputParameter8.LowerBound = 15
+inputParameter8.UpperBound = 30
+Save(Overwrite=True)
+responseSurfaceComponent1.Clean()
+designPointsTable7 = dOEModel1.PreviewDesignPoints()
+designofExperimentComponent1.Update(AllDependencies=True)
+designofExperimentComponent1.Update(AllDependencies=True)
+responseSurfaceComponent1.Refresh()
+responseSurfaceComponent1.Update(AllDependencies=True)
+designPointsTable7.ExportData(FileName=GetAbsoluteUserPathName("Ansys/Project2/data.csv"))
+responseSurfaceModel1.FittingType = "FITTINGTYPE_KRIGING"
+responseSurfaceComponent1.Update(AllDependencies=True)
+designPoint8 = Parameters.GetDesignPoint(Name="17")
+designPoint8.Retained = True
+designPoint1.Retained = False
+backgroundSession4 = UpdateAllDesignPoints(DesignPoints=[designPoint8])
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint8)
+setup1 = system2.GetContainer(ComponentName="Setup")
+setup1.Edit()
+dOEModel1.MethodName = "ANSYS_CUSTOMOSFD"
+designPointsTable7.DeleteRows(Indices=[5])
+designofExperiment1.ApproveGeneratedData()
+responseSurfaceComponent1.Update(AllDependencies=True)
+responseSurfaceComponent1.Update(AllDependencies=True)
+responseSurfaceComponent1.Clean()
+responseSurfaceModel1.FittingType = "FITTINGTYPE_SRS"
+responseSurfaceComponent1.Update(AllDependencies=True)
+responseSurfaceComponent1.Update(AllDependencies=True)
+responseSurfaceComponent1.Clean()
+responseSurfaceComponent1.Update(AllDependencies=True)
+parametricTable1 = responseSurfaceModel1.GetParametricTable(Name="VerificationPoints")
+parametricTable1.SetCellValue(
+    RowIndex=1,
+    ColumnIndex=2,
+    Value="87 [mm]")
+responseSurfaceComponent1.Update(AllDependencies=True)
+parametricTable1.UpdateRows(Indices=[1])
+parametricTable1.AddRow()
+parametricTable1.SetCellValue(
+    RowIndex=2,
+    ColumnIndex=0,
+    Value="131 [mm]")
+parametricTable1.AddRow()
+parametricTable1.SetCellValue(
+    RowIndex=3,
+    ColumnIndex=0,
+    Value="127 [mm]")
+parametricTable1.SetCellValue(
+    RowIndex=2,
+    ColumnIndex=1,
+    Value="18 [mm]")
+parametricTable1.SetCellValue(
+    RowIndex=2,
+    ColumnIndex=2,
+    Value="76 [mm]")
+parametricTable1.SetCellValue(
+    RowIndex=3,
+    ColumnIndex=2,
+    Value="83 [mm]")
+parametricTable1.SetCellValue(
+    RowIndex=3,
+    ColumnIndex=1,
+    Value="24 [mm]")
+responseSurfaceComponent1.Update(AllDependencies=True)
+parametricTable1.UpdateRows(Indices=[3, 2])
+chart1 = responseSurfaceModel1.GetChart(Name="Response")
+chart1.Mode = "Surface3D"
+chart2 = Graphics.GetChartXYZ(Name="Response_ResponseXYZ")
+chart2.ModelView = "0.820142 -0.579929 -0.579929 0 -0.820142 -0.579929 -0.579929 0 0 0.820142 -0.820142 0 0 0.169858 0.99 1 "
+chart2.ModelView = "0.902156 -0.637922 -0.637922 0 -0.902156 -0.637922 -0.637922 0 0 0.902156 -0.902156 0 0 0.186844 1.089 1 "
+chart2.ModelView = "0.820142 -0.579929 -0.579929 0 -0.820142 -0.579929 -0.579929 0 0 0.820142 -0.820142 0 0 0.169858 0.99 1 "
+chart2.ModelView = "0.745584 -0.527208 -0.527208 0 -0.745584 -0.527208 -0.527208 0 0 0.745584 -0.745584 0 0 0.154416 0.9 1 "
+chart2.ModelView = "0.677804 -0.47928 -0.47928 0 -0.677804 -0.47928 -0.47928 0 0 0.677804 -0.677804 0 0 0.140378 0.818182 1 "
+chart2.ModelView = "0.745584 -0.527208 -0.527208 0 -0.745584 -0.527208 -0.527208 0 0 0.745584 -0.745584 0 0 0.154416 0.9 1 "
+chart2.ModelView = "0.820142 -0.579929 -0.579929 0 -0.820142 -0.579929 -0.579929 0 0 0.820142 -0.820142 0 0 0.169858 0.99 1 "
+chart2.ModelView = "0.745584 -0.527208 -0.527208 0 -0.745584 -0.527208 -0.527208 0 0 0.745584 -0.745584 0 0 0.154416 0.9 1 "
+chart2.ModelView = "0.677804 -0.47928 -0.47928 0 -0.677804 -0.47928 -0.47928 0 0 0.677804 -0.677804 0 0 0.140378 0.818182 1 "
+chart2.ModelView = "0.616185 -0.435709 -0.435709 0 -0.616185 -0.435709 -0.435709 0 0 0.616185 -0.616185 0 0 0.127616 0.743802 1 "
+chart2.ModelView = "0.560168 -0.396099 -0.396099 0 -0.560168 -0.396099 -0.396099 0 0 0.560168 -0.560168 0 0 0.116015 0.676184 1 "
+chart2.ModelView = "0.509244 -0.36009 -0.36009 0 -0.509244 -0.36009 -0.36009 0 0 0.509244 -0.509244 0 0 0.105468 0.614713 1 "
+chart2.ModelView = "0.462949 -0.327355 -0.327355 0 -0.462949 -0.327355 -0.327355 0 0 0.462949 -0.462949 0 0 0.09588 0.55883 1 "
+chart2.ModelView = "0.462949 -0.317702 -0.33673 0 -0.462949 -0.317702 -0.33673 0 0 0.476208 -0.449299 0 0 0.0795987 0.56138 1 "
+chart2.ModelView = "0.62184 -0.105558 -0.175543 0 -0.198062 -0.166815 -0.601332 0 0.052218 0.624235 -0.190382 0 -0.237997 -0.175932 0.483618 1 "
+inputParameter9 = responseSurfaceModel1.GetParameter(Name="P15")
+chart1.AssociateParameterToAxis(
+    Parameter=inputParameter9,
+    Axis="YAxis")
+chart2.ModelView = "0.823177 -0.244428 -0.995094 0 -1.01419 -0.376213 -0.746606 0 -0.145992 1.23542 -0.424254 0 0.168501 -0.307387 1.08297 1 "
+chart2.ModelView = "1.29587 -0.0180739 -0.218785 0 -0.21689 -0.307786 -1.2593 0 -0.0339353 1.27769 -0.306467 0 -0.522505 -0.475918 0.89228 1 "
+chart2.ModelView = "1.42546 -0.0198813 -0.240664 0 -0.238579 -0.338565 -1.38523 0 -0.0373288 1.40546 -0.337114 0 -0.574757 -0.52351 0.981508 1 "
+chart2.ModelView = "1.56801 -0.0218694 -0.26473 0 -0.262437 -0.372422 -1.52375 0 -0.0410617 1.54601 -0.370825 0 -0.632235 -0.575861 1.07966 1 "
+chart2.ModelView = "1.72481 -0.0240563 -0.291203 0 -0.288681 -0.409664 -1.67612 0 -0.0451679 1.70061 -0.407907 0 -0.695461 -0.633447 1.18763 1 "
+chart2.ModelView = "1.56801 -0.0218694 -0.26473 0 -0.262437 -0.372422 -1.52375 0 -0.0410617 1.54601 -0.370825 0 -0.632235 -0.575861 1.07967 1 "
+chart2.ModelView = "1.42546 -0.0198813 -0.240664 0 -0.238579 -0.338565 -1.38523 0 -0.0373288 1.40546 -0.337114 0 -0.574757 -0.52351 0.98152 1 "
+chart2.ModelView = "1.29587 -0.0180739 -0.218785 0 -0.21689 -0.307786 -1.2593 0 -0.0339353 1.27769 -0.306467 0 -0.522505 -0.475918 0.892292 1 "
+chart2.ModelView = "1.17806 -0.0164308 -0.198895 0 -0.197173 -0.279805 -1.14482 0 -0.0308503 1.16154 -0.278606 0 -0.475003 -0.432653 0.811176 1 "
+chart2.ModelView = "1.07096 -0.0149371 -0.180814 0 -0.179248 -0.254368 -1.04075 0 -0.0280457 1.05595 -0.253278 0 -0.43182 -0.393321 0.737434 1 "
+chart2.ModelView = "0.9736 -0.0135792 -0.164376 0 -0.162953 -0.231244 -0.946136 0 -0.0254961 0.959955 -0.230253 0 -0.392562 -0.357564 0.670396 1 "
+chart2.ModelView = "0.885091 -0.0123447 -0.149433 0 -0.148139 -0.210222 -0.860124 0 -0.0231783 0.872686 -0.209321 0 -0.356873 -0.325058 0.609452 1 "
+chart2.ModelView = "0.804628 -0.0112225 -0.135848 0 -0.134672 -0.191111 -0.781931 0 -0.0210712 0.793351 -0.190292 0 -0.324429 -0.295507 0.554048 1 "
+chart2.ModelView = "0.327423 -0.207917 -0.718072 0 -0.733533 -0.240326 -0.26492 0 -0.143965 0.751709 -0.283323 0 0.275052 -0.15173 0.633172 1 "
+chart2.ModelView = "0.318635 -0.171366 -0.731553 0 -0.749526 -0.127275 -0.296682 0 -0.0517959 0.787712 -0.207096 0 0.241363 -0.244532 0.617686 1 "
+chart2.ModelView = "0.527949 -0.283938 -1.21212 0 -1.24195 -0.210892 -0.491596 0 -0.0858213 1.30517 -0.34314 0 0.399911 -0.40517 1.02343 1 "
+chart3 = responseSurfaceModel1.GetChart(Name="LocalSensitivityCurves")
+outputParameter1 = responseSurfaceModel1.GetParameter(Name="P5")
+chart3.AssociateParameterToAxis(
+    Parameter=outputParameter1,
+    Axis="YAxis")
+outputParameter2 = responseSurfaceModel1.GetParameter(Name="P7")
+chart3.AssociateParameterToAxis(
+    Parameter=outputParameter2,
+    Axis="YAxis")
+outputParameter3 = responseSurfaceModel1.GetParameter(Name="P6")
+chart3.AssociateParameterToAxis(
+    Parameter=outputParameter3,
+    Axis="YAxis")
+outputParameter4 = responseSurfaceModel1.GetParameter(Name="P4")
+chart3.AssociateParameterToAxis(
+    Parameter=outputParameter4,
+    Axis="YAxis")
+template1 = GetTemplate(TemplateName="Response Surface Optimization")
+system4 = template1.CreateSystem()
+optimization1 = system4.GetContainer(ComponentName="Optimization")
+optimizationModel1 = optimization1.GetModel()
+optimizationModel1.MethodSelection = "OMS_Manual"
+optimizationModel1.MethodName = "ANSYS_MOGA"
+inputParameter10 = optimizationModel1.GetParameter(Name="P12")
+optimizationCriterion1 = inputParameter10.CreateOptimizationCriterion()
+optimizationModel1.DeleteOptimizationCriteria(OptimizationCriteria=[optimizationCriterion1])
+outputParameter5 = optimizationModel1.GetParameter(Name="P4")
+optimizationCriterion2 = outputParameter5.CreateOptimizationCriterion()
+optimizationCriterion2.ObjectiveType = "GT_MinimumPossible"
+outputParameter6 = optimizationModel1.GetParameter(Name="P6")
+optimizationCriterion3 = outputParameter6.CreateOptimizationCriterion()
+optimizationCriterion3.ObjectiveType = "GT_MaximumPossible"
+outputParameter7 = optimizationModel1.GetParameter(Name="P5")
+optimizationCriterion4 = outputParameter7.CreateOptimizationCriterion()
+optimizationCriterion4.ObjectiveType = "GT_MinimumPossible"
+outputParameter8 = optimizationModel1.GetParameter(Name="P7")
+optimizationCriterion5 = outputParameter8.CreateOptimizationCriterion()
+optimizationCriterion5.ObjectiveType = "GT_MinimumPossible"
+optimizationCriterion1.LowerBound = 125
+inputParameter11 = optimizationModel1.GetParameter(Name="P15")
+optimizationCriterion6 = inputParameter11.GetOptimizationCriterion()
+optimizationCriterion6.LowerBound = 70
+optimizationComponent1 = system4.GetComponent(Name="Optimization")
+optimizationComponent1.Update(AllDependencies=True)
+mOGAOptimization1 = optimizationModel1.Method
+mOGAOptimization1.NumberOfInitialSamples = 10
+mOGAOptimization1.MaxNumIterations = 3
+mOGAOptimization1.NumSamplesPerIter = 10
+optimizationComponent1.Clean()
+optimizationCriterion7 = inputParameter10.CreateOptimizationCriterion()
+optimizationModel1.DeleteOptimizationCriteria(OptimizationCriteria=[optimizationCriterion7])
+optimizationComponent1.Update(AllDependencies=True)
+system4.Delete()
+system5 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+designofExperimentComponent2 = system5.GetComponent(Name="Design of Experiment")
+designofExperimentComponent2.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=designofExperimentComponent1,
+    SourceSystem=system1)
+responseSurfaceComponent2 = system5.GetComponent(Name="Response Surface")
+responseSurfaceComponent2.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=responseSurfaceComponent1,
+    SourceSystem=system1)
+optimization2 = system5.GetContainer(ComponentName="Optimization")
+optimizationModel2 = optimization2.GetModel()
+inputParameter12 = optimizationModel2.GetParameter(Name="P12")
+optimizationCriterion8 = inputParameter12.GetOptimizationCriterion()
+optimizationCriterion8.UpperBound = 139
+inputParameter13 = optimizationModel2.GetParameter(Name="P15")
+optimizationCriterion9 = inputParameter13.GetOptimizationCriterion()
+optimizationCriterion9.UpperBound = 87
+optimizationCriterion9.UpperBound = 88
+optimizationCriterion8.UpperBound = 140
+optimizationCriterion9.UpperBound = 90
+outputParameter9 = optimizationModel2.GetParameter(Name="P4")
+optimizationCriterion10 = outputParameter9.CreateOptimizationCriterion()
+outputParameter10 = optimizationModel2.GetParameter(Name="P6")
+optimizationCriterion11 = outputParameter10.CreateOptimizationCriterion()
+outputParameter11 = optimizationModel2.GetParameter(Name="P5")
+optimizationCriterion12 = outputParameter11.CreateOptimizationCriterion()
+outputParameter12 = optimizationModel2.GetParameter(Name="P7")
+optimizationCriterion13 = outputParameter12.CreateOptimizationCriterion()
+optimizationCriterion10.ObjectiveType = "GT_MinimumPossible"
+optimizationCriterion11.ObjectiveType = "GT_MaximumPossible"
+optimizationCriterion12.ObjectiveType = "GT_MinimumPossible"
+optimizationCriterion13.ObjectiveType = "GT_MinimumPossible"
+optimizationModel2.MethodSelection = "OMS_Manual"
+optimizationComponent2 = system5.GetComponent(Name="Optimization")
+optimizationComponent2.Update(AllDependencies=True)
+designPoint9 = designPoint8.Duplicate()
+designPoint9.SetEntityProperties(Properties=Set(Retained=False, Exported=False, UpdateOrder=0, Note="Created from Optimization / Candidate Point 1"))
+parameter1 = Parameters.GetParameter(Name="P12")
+parameter2 = Parameters.GetParameter(Name="P14")
+parameter3 = Parameters.GetParameter(Name="P15")
+designPoint9.SetParameterExpressions(ParameterExpressions={parameter1: "125.01548474323806 [mm]", parameter2: "18.6091182919118 [mm]", parameter3: "81.865691604668129 [mm]"})
+backgroundSession4 = UpdateAllDesignPoints(DesignPoints=[designPoint9])
+designPoint9.Retained = True
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint9)
+geometry1.Edit()
+geometry1.Refresh()
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint2)
+geometry1.Edit()
+geometry1.Refresh()
+model1.Edit()
+Parameters.SetBaseDesignPoint(DesignPoint=designPoint9)
+modelComponent1 = system2.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1.Edit()
+model1.Exit()
+system6 = GetSystem(Name="SYS 2")
+modelComponent2 = system6.GetComponent(Name="Model")
+modelComponent2.Refresh()
+model2 = system6.GetContainer(ComponentName="Model")
+model2.Edit()
+model2.Exit()
+system7 = GetSystem(Name="SYS 1")
+modelComponent3 = system7.GetComponent(Name="Model")
+modelComponent3.Refresh()
+model3 = system7.GetContainer(ComponentName="Model")
+model3.Edit()
+model1.Edit()
+responsePoint1 = responseSurfaceModel1.GetResponsePoint(Name="ResponsePoint")
+inputParameter14 = responseSurfaceModel1.GetParameter(Name="P12")
+responsePoint1.SetParameter(
+    Parameter=inputParameter14,
+    Expression="133.55 [mm]")
+responsePoint1.SetParameter(
+    Parameter=inputParameter14,
+    Expression="135.05 [mm]")
+responsePoint1.SetParameter(
+    Parameter=inputParameter14,
+    Expression="137.75 [mm]")
+responsePoint1.SetParameter(
+    Parameter=inputParameter14,
+    Expression="132.5 [mm]")
+model3.Exit()
+model2.Edit()
+Save(Overwrite=True)
+model2.Exit()
+model1.Exit()
+Save(Overwrite=True)
+Save(Overwrite=True)

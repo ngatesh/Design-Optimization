@@ -1,0 +1,42 @@
+/COM,ANSYS RELEASE 2022 R1           BUILD 22.1      UP20211129       22:56:33
+
+ *** WARNING ***                         CP =       0.516   TIME= 22:56:34
+ Element shape checking is currently inactive.  Issue SHPP,ON or         
+ SHPP,WARN to reactivate, if desired.                                    
+
+ *** WARNING ***                         CP =       0.578   TIME= 22:56:34
+ Material number 18 (used by element 10600) should normally have at      
+ least one MP or one TB type command associated with it.  Output of      
+ energy by material may not be available.                                
+
+ *** WARNING ***                         CP =       1.172   TIME= 22:56:34
+ Maximum friction coefficient 0.22 is defined in the model.  Switch to   
+ the unsymmetric solver (NROP,UNSYM) instead if convergence difficulty   
+ is encountered.                                                         
+
+ *** WARNING ***                         CP =       1.172   TIME= 22:56:34
+ Overconstraint may occur for Lagrange multiplier or MPC based contact   
+ algorithm.                                                              
+
+ *** WARNING ***                         CP =       1.172   TIME= 22:56:34
+ Boundary conditions, coupling, and/or constraint equations have been    
+ applied on certain contact nodes (for example 8008).                    
+
+ *** WARNING ***                         CP =       1.766   TIME= 22:56:35
+ Multiple constraints have been applied on degree of freedom 3 of        
+ contact node 6209.  The program will remove certain internal MPCs.      
+ Please check the model carefully.                                       
+
+ *** WARNING ***                         CP =       1.766   TIME= 22:56:35
+ Or use relaxation option (target element KEYOPT(11) = 1) to overcome    
+ the over-constraint.                                                    
+
+ *** WARNING ***                         CP =       2.094   TIME= 22:56:35
+ For element 10600 the element connectivity is 0 and 13192.  The node    
+ which is identified as a 0 will be a grounded node.                     
+
+ *** WARNING ***                         CP =       3.188   TIME= 22:56:36
+ Pivoting has been activated for the Distributed Sparse Matrix Solver .  
+ The memory required may greatly exceed the predicted amount.  In that   
+ event, use the DSPOPTION command to change the memory mode and/or       
+ memory size used by the Distributed Sparse Matrix Solver.               

@@ -1,0 +1,234 @@
+# encoding: utf-8
+# 2022 R1
+SetScriptVersion(Version="22.1.217")
+system1 = GetSystem(Name="SYS")
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+template1 = GetTemplate(
+    TemplateName="Modal",
+    Solver="ANSYS")
+system2 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+geometryComponent1 = system2.GetComponent(Name="Geometry")
+system3 = GetSystem(Name="Geometry")
+geometryComponent2 = system3.GetComponent(Name="Geometry")
+geometryComponent1.ReplaceWithShare(
+    TargetSystem=system2,
+    ComponentToShare=geometryComponent2,
+    SourceSystem=system3)
+system2.Delete()
+system4 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+geometryComponent3 = system4.GetComponent(Name="Geometry")
+geometryComponent4 = system1.GetComponent(Name="Geometry")
+geometryComponent3.ReplaceWithShare(
+    TargetSystem=system4,
+    ComponentToShare=geometryComponent4,
+    SourceSystem=system1)
+engineeringDataComponent1 = system4.GetComponent(Name="Engineering Data")
+engineeringDataComponent2 = system1.GetComponent(Name="Engineering Data")
+engineeringDataComponent1.ReplaceWithShare(
+    TargetSystem=system4,
+    ComponentToShare=engineeringDataComponent2,
+    SourceSystem=system1)
+modelComponent1 = system4.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model2 = system4.GetContainer(ComponentName="Model")
+model2.Edit()
+model2.Exit()
+model1.Edit()
+model1.Exit()
+model2.Edit()
+model2.Exit()
+template2 = GetTemplate(
+    TemplateName="Transient Thermal",
+    Solver="ANSYS")
+system5 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system4)
+geometryComponent5 = system5.GetComponent(Name="Geometry")
+geometryComponent5.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=geometryComponent3,
+    SourceSystem=system4)
+engineeringDataComponent3 = system5.GetComponent(Name="Engineering Data")
+engineeringDataComponent3.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=engineeringDataComponent1,
+    SourceSystem=system4)
+modelComponent2 = system5.GetComponent(Name="Model")
+modelComponent2.Refresh()
+model3 = system5.GetContainer(ComponentName="Model")
+model3.Edit()
+model3.Exit()
+setup1 = system4.GetContainer(ComponentName="Setup")
+setup1.Edit()
+model2.Exit()
+geometryComponent3.DeleteShare(System=system4)
+engineeringDataComponent1.DeleteShare(System=system4)
+geometryComponent5.DeleteShare(System=system5)
+engineeringDataComponent3.DeleteShare(System=system5)
+geometryComponent3.ReplaceWithShare(
+    TargetSystem=system4,
+    ComponentToShare=geometryComponent4,
+    SourceSystem=system1)
+geometryComponent5.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=geometryComponent4,
+    SourceSystem=system1)
+geometryComponent5.DeleteShare(System=system5)
+engineeringDataComponent1.ReplaceWithShare(
+    TargetSystem=system4,
+    ComponentToShare=engineeringDataComponent2,
+    SourceSystem=system1)
+geometryComponent5.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=geometryComponent3,
+    SourceSystem=system4)
+engineeringDataComponent3.ReplaceWithShare(
+    TargetSystem=system5,
+    ComponentToShare=engineeringDataComponent1,
+    SourceSystem=system4)
+Refresh()
+system4.Delete()
+system5.Delete()
+modelComponent3 = system1.GetComponent(Name="Model")
+solutionComponent1 = system1.GetComponent(Name="Solution")
+componentTemplate1 = GetComponentTemplate(Name="SimulationSetupCellTemplate_StructuralModalANSYS")
+system6 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent2, geometryComponent4, modelComponent3],
+    DataTransferFrom=[Set(FromComponent=solutionComponent1, TransferName=None, ToComponentTemplate=componentTemplate1)],
+    Position="Right",
+    RelativeTo=system1)
+system6.Delete()
+system7 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent2, geometryComponent4, modelComponent3],
+    DataTransferFrom=[Set(FromComponent=solutionComponent1, TransferName=None, ToComponentTemplate=componentTemplate1)],
+    Position="Right",
+    RelativeTo=system1)
+system8 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system7)
+geometryComponent6 = system8.GetComponent(Name="Geometry")
+geometryComponent7 = system7.GetComponent(Name="Geometry")
+geometryComponent6.ReplaceWithShare(
+    TargetSystem=system8,
+    ComponentToShare=geometryComponent7,
+    SourceSystem=system7)
+engineeringDataComponent4 = system8.GetComponent(Name="Engineering Data")
+engineeringDataComponent5 = system7.GetComponent(Name="Engineering Data")
+engineeringDataComponent4.ReplaceWithShare(
+    TargetSystem=system8,
+    ComponentToShare=engineeringDataComponent5,
+    SourceSystem=system7)
+modelComponent3.Refresh()
+setupComponent1 = system7.GetComponent(Name="Setup")
+setupComponent1.Refresh()
+setup2 = system7.GetContainer(ComponentName="Setup")
+setup2.Edit()
+model1.Exit()
+model1.Edit()
+model1.Exit()
+solutionComponent1.DeleteTransfer(TargetComponent=setupComponent1)
+system7.Delete()
+system8.Delete()
+system9 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+geometryComponent8 = system9.GetComponent(Name="Geometry")
+geometryComponent8.ReplaceWithShare(
+    TargetSystem=system9,
+    ComponentToShare=geometryComponent4,
+    SourceSystem=system1)
+engineeringDataComponent6 = system9.GetComponent(Name="Engineering Data")
+engineeringDataComponent6.ReplaceWithShare(
+    TargetSystem=system9,
+    ComponentToShare=engineeringDataComponent2,
+    SourceSystem=system1)
+system10 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system9)
+geometryComponent9 = system10.GetComponent(Name="Geometry")
+geometryComponent9.ReplaceWithShare(
+    TargetSystem=system10,
+    ComponentToShare=geometryComponent8,
+    SourceSystem=system9)
+engineeringDataComponent7 = system10.GetComponent(Name="Engineering Data")
+engineeringDataComponent7.ReplaceWithShare(
+    TargetSystem=system10,
+    ComponentToShare=engineeringDataComponent6,
+    SourceSystem=system9)
+modelComponent4 = system9.GetComponent(Name="Model")
+modelComponent4.Refresh()
+model4 = system9.GetContainer(ComponentName="Model")
+model4.Edit()
+system11 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent2, geometryComponent4, modelComponent3],
+    DataTransferFrom=[Set(FromComponent=solutionComponent1, TransferName=None, ToComponentTemplate=componentTemplate1)],
+    Position="Below",
+    RelativeTo=system9)
+system11.Delete()
+modelComponent5 = system10.GetComponent(Name="Model")
+modelComponent5.Refresh()
+model5 = system10.GetContainer(ComponentName="Model")
+model5.Edit()
+model5.Exit()
+model1.Edit()
+model1.Exit()
+geometry1 = system3.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+geometry1.Exit()
+template3 = GetTemplate(TemplateName="Response Surface")
+system12 = template3.CreateSystem()
+responseSurface1 = system12.GetContainer(ComponentName="Response Surface")
+responseSurfaceModel1 = responseSurface1.GetModel()
+responseSurfaceModel1.FittingType = "FITTINGTYPE_SPARSEGRID"
+responseSurfaceModel1.FittingType = "FITTINGTYPE_GRS"
+designofExperiment1 = system12.GetContainer(ComponentName="Design of Experiment")
+dOEModel1 = designofExperiment1.GetModel()
+dOEModel1.MethodName = "ANSYS_LHS"
+system12.Delete()
+system13 = template3.CreateSystem()
+designofExperiment2 = system13.GetContainer(ComponentName="Design of Experiment")
+dOEModel2 = designofExperiment2.GetModel()
+dOEModel2.MethodName = "ANSYS_LHS"
+dOEModel2.MethodName = "ANSYS_CCD"
+dOEModel2.MethodName = "ANSYS_LHS"
+dOEModel2.MethodName = "ANSYS_CCD"
+dOEModel2.MethodName = "ANSYS_LHS"
+lHSDMethod1 = dOEModel2.Method
+lHSDMethod1.SampType = "SFD_LINEAR"
+model4.Edit()
+model4.Exit()
+designofExperimentComponent1 = system13.GetComponent(Name="Design of Experiment")
+designofExperimentComponent1.Update(AllDependencies=True)
+designofExperimentComponent1.Clean()
+inputParameter1 = dOEModel2.GetParameter(Name="P3")
+inputParameter1.LowerBound = 66
+inputParameter1.UpperBound = 90
+inputParameter2 = dOEModel2.GetParameter(Name="P2")
+inputParameter2.LowerBound = 110
+inputParameter2.UpperBound = 140
+inputParameter3 = dOEModel2.GetParameter(Name="P1")
+inputParameter3.LowerBound = 22
+inputParameter3.UpperBound = 28
+designPointsTable1 = dOEModel2.PreviewDesignPoints()
+lHSDMethod1.SampType = "SFD_CCD"
+designPointsTable2 = dOEModel2.PreviewDesignPoints()
+geometry1.Edit()
+model1.Edit()
+model1.Exit()
+lHSDMethod1.SampType = "SFD_CROSSQUAD"
+lHSDMethod1.SampType = "SFD_CCD"
+designPointsTable3 = dOEModel2.PreviewDesignPoints()
+lHSDMethod1.SampType = "SFD_LINEAR"
+lHSDMethod1.SampType = "SFD_PUREQUAD"
+designPointsTable4 = dOEModel2.PreviewDesignPoints()
+lHSDMethod1.SampType = "SFD_USER"
+lHSDMethod1.SampType = "SFD_CCD"
+designPointsTable5 = dOEModel2.PreviewDesignPoints()
+designofExperimentComponent1.Update(AllDependencies=True)
+Save(Overwrite=True)
